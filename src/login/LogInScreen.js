@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {View,Text,StyleSheet,StatusBar,TextInput,TouchableOpacity,TouchableWithoutFeedback,Image} from 'react-native';
 import BaseColor from '../Base/BaseColor';
 import { thisExpression } from '@babel/types';
+import LoadingUtil from '../Base/BaseLoadingUtil';
 
 class LoginScreen extends Component{
     static navigationOptions = {
@@ -43,16 +44,19 @@ class LoginScreen extends Component{
             })
         } else{
             this.setState({
-                advice:''
+                advice:'123'
             })
             this._fetchData()
         }
     }
     _fetchData = ()=>{
-
+        LoadingUtil.showLoading()
+        setInterval(()=>{
+            LoadingUtil.dismissLoading()
+        },3000)
     }
     _resetPswdBtnPress = ()=>{
-
+        this.props.navigation.navigate('ResetPswd')
     }
     _registerBtnPress = ()=>{
 
