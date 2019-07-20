@@ -56,10 +56,10 @@ class LoginScreen extends Component{
         },3000)
     }
     _resetPswdBtnPress = ()=>{
-        this.props.navigation.navigate('ResetPswd')
+        this.props.navigation.navigate('ResetPswd',{type:'resetPswd'})
     }
     _registerBtnPress = ()=>{
-
+        this.props.navigation.navigate('ResetPswd',{type:'register'})
     }
     render(){
         let img = require('../../img/base/log.png')

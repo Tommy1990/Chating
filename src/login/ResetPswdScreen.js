@@ -6,13 +6,58 @@ class ResetPswdScreen extends Component{
     static navigationOptions = {
         header:null
     }
+    constructor(props){
+        super(props)
+        this.state={
+            showComponent:false,
+            advice:'',
+            phone:'',
+            valid:'',
+            pswd:''
+        }
+    }
+    componentDidMount(){
+        let type = this.props.navigation.getParam('type','resetPswd')
+        if(type == 'register' ){
+            this.setState({
+                showComponent:true,
+            })
+        }
+    }
     _endEditing = ()=>{
         this._phoneRef.blur()
         this._vaildRef.blur()
         this._pswdRef.blur()
     }
+    _phoneInputing = (value)=>{
+        this.setState({
+            phone:value
+        })
+    }
+    _validInputing = (value)=>{
+        this.setState({
+            valid:value
+        })
+    }
+    _pswdInputing = (value)=>{
+        this.setState({
+            pswd:value
+        })
+    }
+    _subbtnPress = ()=>{
+        
+    }
     render(){
         let img = require('../../img/base/log.png')
+        let btnLab = this.state.showComponent  ? '注册' : '重置密码'
+        let item = <View/>
+        if(this.state.showComponent){
+            item = <View style={[styles.cellContainer,{marginTop:20}]}>
+            <TouchableOpacity style={styles.submitBtn}>
+                <Text style={styles.submitLab}>已有账号直接登录</Text>
+            </TouchableOpacity>
+        </View>
+        }
         return(<View style={BaseStyles.container}>
             <TouchableWithoutFeedback onPress={()=> this._endEditing()}
             style={styles.touchContainer}>
@@ -24,7 +69,9 @@ class ResetPswdScreen extends Component{
                         <View style={styles.rowContainer}>
                             <Text style={styles.deslab}>手机号</Text>
                             <TextInput ref={component => this._phoneRef = component}
+                            onChangeText={(value)=> this._phoneInputing(value)}
                             placeholder="请输入手机号"
+                            keyboardType='phone-pad'
                             style={styles.input}/>
                             <TouchableOpacity style={styles.btn}>
                                 <Text style={styles.btnLab}>获取验证码</Text>
@@ -35,7 +82,9 @@ class ResetPswdScreen extends Component{
                         <View style={styles.rowContainer}>
                             <Text style={styles.deslab}>验证码</Text>
                             <TextInput ref = {component => this._vaildRef = component}
+                            onChangeText={(value)=>this._validInputing(value)}
                             placeholder="请输入验证码"
+                            keyboardType='number-pad'
                             style={styles.input}/>
                         </View>
                     </View>
@@ -43,16 +92,19 @@ class ResetPswdScreen extends Component{
                         <View style={styles.rowContainer}>
                             <Text style={styles.deslab}>密码</Text>
                             <TextInput ref = {component => this._pswdRef = component}
+                            onChangeText={(value)=>this._pswdInputing(value)}
                             placeholder="请输入密码"
+                            keyboardType="ascii-capable"
                             style={styles.input}/>
                         </View>
                     </View>
+                    <Text style={styles.advice}>{this.state.advice}</Text>
                     <View style={[styles.cellContainer,{marginTop:20}]}>
                         <TouchableOpacity style={styles.submitBtn}>
-                            <Text style={styles.submitLab}>重置密码</Text>
+                            <Text style={styles.submitLab}>{btnLab}</Text>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.advice}>12349</Text>
+                    {item}
                 </View>
             </TouchableWithoutFeedback>
         </View>)
