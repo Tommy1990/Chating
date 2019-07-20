@@ -14,7 +14,10 @@ class ResetPswdScreen extends Component{
             advice:'',
             phone:'',
             valid:'',
-            pswd:''
+            pswd:'',
+            timeMsg:'获取验证码',
+            validDisenable:false,
+            timeLength:30
         }
     }
     componentDidMount(){
@@ -24,6 +27,31 @@ class ResetPswdScreen extends Component{
                 showComponent:true,
             })
         }
+    }
+    _clockStart = ()=>{
+        this.myVar = setInterval(()=>{
+            let time = this.state.timeLength*1;
+            if (time>0){
+                this.setState({
+                    timeLength:time-1,
+                    timeMsg:`(${time-1})s`
+                })
+            }else{
+                this._clockStop();
+                this.setState({
+                    validDisenable:false,
+                    timeMsg:'重新发送'
+                })
+            }
+        },1000)
+    }
+    _clockStop = ()=>{    
+        if(this.myVar !== null){
+            clearInterval(this.myVar);
+        }    
+    }
+    componentWillUnmount(){
+        this._clockStop()
     }
     _endEditing = ()=>{
         this._phoneRef.blur()
@@ -53,8 +81,10 @@ class ResetPswdScreen extends Component{
             })
         }else{
             this.setState({
-                advice:''
+                advice:'',
+                validDisenable:true
             })
+            this._clockStart()
         }
     }
     _subbtnPress = ()=>{
@@ -112,8 +142,10 @@ class ResetPswdScreen extends Component{
                             maxLength={11}
                             style={styles.input}/>
                             <TouchableOpacity onPress={this._validBtnPress}
-                            style={styles.btn}>
-                                <Text style={styles.btnLab}>获取验证码</Text>
+                            disabled={this.state.validDisenable}
+                            style={[styles.btn,
+                            {backgroundColor:this.state.validDisenable ? BaseColor.disenable() : BaseColor.theme()}]}>
+                                <Text style={styles.btnLab}>{this.state.timeMsg}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

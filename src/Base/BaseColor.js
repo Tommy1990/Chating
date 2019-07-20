@@ -7,4 +7,7 @@ BaseColor.theme = ()=> {
 BaseColor.gray = ()=>{
     return '#eee'
 }
+BaseColor.disenable = ()=>{
+    return '#aaa'
+}
 export default BaseColor;

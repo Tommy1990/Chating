@@ -1,8 +1,9 @@
 class BaseRegx{
 
 }
+//String regex = "^[1][3|4|5|6|7|8|9][\\d]{9}$";
 BaseRegx.phone= (phone)=>{
-    let rgx = new RegExp('/^1[3456789]\d{9}$/')
+    let rgx = new RegExp('^[1][3|4|5|6|7|8|9][\\d]{9}$')
     return rgx.test(phone)
 }
 //6~16位数字加字母
